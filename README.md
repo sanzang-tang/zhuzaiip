@@ -1,6 +1,6 @@
 # VPN Gate SSTP 节点自动优选（edgetunnel 链式代理）
 
-自动抓取 [VPN Gate](https://www.vpngate.net/) 的 SSTP 家宽/机房节点，调用检测 Worker 逐个验证可用性，按国家分组、标注住宅/机房，生成可直接粘贴进 edgetunnel 后台的链式代理清单。**每 30 分钟自动更新一次。**
+自动抓取 [VPN Gate](https://www.vpngate.net/) 的 SSTP 家宽/机房节点，调用检测 Worker 逐个验证可用性，按国家分组、标注住宅/机房，生成可直接粘贴进 edgetunnel 后台的链式代理清单。**每 8 小时自动更新一次。**
 
 > 核心价值：VPN Gate 的 SSTP 节点 30 分钟就换一批，手动测试筛选太痛苦。本仓库把它全自动了——你只需定期打开一个固定 URL 复制粘贴。
 
@@ -13,7 +13,7 @@
 | 项目 | 用途 | 链接 |
 | :--- | :--- | :--- |
 | **cmliu/edgetunnel** | VLESS 代理 + 链式代理（节点备注里的链式代理指令），节点最终通过它使用 | https://github.com/cmliu/edgetunnel |
-| **lsh8848/cm-Workers-CheckSocks5** | 检测 Worker：验证 SSTP 节点可用性并读取出口 IP（住宅/机房判定） | https://github.com/lsh8848/cm-Workers-CheckSocks5 |
+| **lsh8848/cm-Workers-CheckSocks5** | 检测 Worker：验证 SSTP 节点可用性并读取出口 IP（住宅/机房判定） | https://github.com/cmliu/CF-Workers-CheckSocks5 |
 | **fdciabdul/Vpngate-Scraper-API** | VPN Gate 节点数据的 GitHub 镜像（官方源失效时回退） | https://github.com/fdciabdul/Vpngate-Scraper-API |
 | **VPN Gate** | SSTP 节点数据源 | https://www.vpngate.net/ |
 
@@ -23,7 +23,7 @@
 
 ```text
 VPN Gate 官方源
-      │  (每 30 分钟，GitHub Actions 定时抓取)
+      │  (每 8 小时，GitHub Actions 定时抓取)
       ▼
 筛选 SSTP 节点 → 去重
       │
@@ -60,7 +60,7 @@ VPN Gate 官方源
 
 检测 Worker 负责验证「SSTP 节点能不能用」以及「出口是住宅还是机房」，必须自己部署一个：
 
-1. 打开 https://github.com/lsh8848/cm-Workers-CheckSocks5 ，点 **Fork**（或直接下载其中的 _worker.js）
+1. 打开 https://github.com/cmliu/CF-Workers-CheckSocks5 ，点 **Fork**（或直接下载其中的 _worker.js）
 2. 进 Cloudflare 控制台 → Workers 和 Pages → 创建 → 创建 Worker
 3. 把 _worker.js 的全部内容粘贴进编辑器，点「部署」
 4. 记下这个 Worker 的域名，形如 https://xxx.你的用户名.workers.dev （也可绑自定义域名）
